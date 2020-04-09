@@ -1,16 +1,13 @@
-org 0x7c00
 bits 16
 
 start:
     jmp main 
 
-msg db  "Welcome to My Operating System!",0
-
 bpbOEM: db "My OS "
 bpbBytesPerSector: dw 512
 bpbSectorsPerCluster: db 1
 bpbReservedSectors: dw 1
-bpbNumberOfFATS: db 2
+bpbNumberOfFATs: db 2
 bpbRootEntries: dw 224
 bpbTotalSectors: dw 2880
 bpbMedia: db 0xf8
@@ -24,7 +21,7 @@ bsUnsed: db 0
 bsExtBootSignature: db 0x29
 bsSerialNumber: dd 0xa0a1a2a3
 bsVolumeLabel: db "MOS FLOPPY "
-bsFileSystem: db 'FAT12  "
+bsFileSystem: db "FAT12  "
 
 print:
     lodsb
@@ -38,9 +35,9 @@ printDone:
     ret
 
 readSectors:
-    .MAIN
+    .MAIN:
 	mov di, 0x0005
-    .SECTORLOOP
+    .SECTORLOOP:
 	push ax
 	push bx
 	push cx
@@ -52,7 +49,7 @@ readSectors:
 	mov dh, BYTE [absoluteHead]
 	mov dl, BYTE [bsDriveNumber]
 	int 0x13
-	jnc .SUCESS
+	jnc .SUCCESS
 	xor ax,ax
 	int 0x13
 	dec di
@@ -61,7 +58,7 @@ readSectors:
 	pop ax
 	jnz .SECTORLOOP
 	int 0x18
-    .SUCCESS
+    .SUCCESS:
 	mov si, msgProgress
 	call print
 	pop cx
@@ -86,7 +83,7 @@ LBACHS:
     inc dl
     mov BYTE [absoluteSector], dl
     xor dx, dx
-    div WORD [bpbHeadPerCylinder]
+    div WORD [bpbHeadsPerCylinder]
     mov BYTE [absoluteHead], dl
     mov BYTE [absoluteTrack], al
     ret
@@ -137,7 +134,7 @@ LOAD_ROOT:
 	mov cx, 0xb ;eleven character name
 	mov si, imageName
 	push di
-    req cmpsb
+    rep cmpsb
 	pop di
 	je LOAD_FAT
 	pop cx
@@ -215,7 +212,7 @@ absoluteHead: db 0x00
 absoluteTrack: db 0x00
 datasector: dw 0x0000
 cluster: dw 0x0000
-imageName: db "KRNLDR BIN"
+imageName: db "stage2  bin"
 msgLoading: db 0x0d, 0x0a, "Loading Boot Image ", 0x0d, 0x0a, 0x00
 msgCRLF: db 0x0d, 0x0a, 0x00
 msgProgress: db ".", 0x00

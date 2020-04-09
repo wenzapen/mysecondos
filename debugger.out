@@ -1,7 +1,7 @@
 Next at t=0
 (0) [0x00000000fffffff0] f000:fff0 (unk. ctxt): jmp far f000:e05b         ; ea5be000f0
 continue
-Next at t=1743490005
-(0) [0x0000000000007c42] 0000:7c42 (unk. ctxt): add byte ptr ds:[bx+si], al ; 0000
+Next at t=429076721
+(0) [0x00000000000fe869] f000:e869 (unk. ctxt): cli                       ; fa
 <bochs:1> quit
-(0).[1743490005] [0x0000000000007c42] 0000:7c42 (unk. ctxt): add byte ptr ds:[bx+si], al ; 0000
+(0).[429076721] [0x00000000000fe869] f000:e869 (unk. ctxt): cli                       ; fa
