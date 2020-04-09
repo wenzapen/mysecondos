@@ -197,9 +197,9 @@ LOAD_IMAGE:
 DONE:
     mov si, msgCRLF
     call print
-    push WORD 0x0050
-    push WORD 0x0000
-    retf
+    push WORD 0x0050	; CS
+    push WORD 0x0000	; IP
+    retf		; pop both CS and IP
 FAILURE:
     mov si, msgFailure
     call print

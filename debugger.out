@@ -1,18 +1,24 @@
 Next at t=0
 (0) [0x00000000fffffff0] f000:fff0 (unk. ctxt): jmp far f000:e05b         ; ea5be000f0
 continue
-Next at t=1817786205
-(0) [0x0000000000000519] 0050:0019 (unk. ctxt): push ax                   ; 50
-<bochs:1> regs
-rax: 0x00000000_00000e00 rcx: 0x00000000_00090004
-rdx: 0x00000000_00000fff rbx: 0x00000000_00000204
-rsp: 0x00000000_0000fffb rbp: 0x00000000_00000000
-rsi: 0x00000000_000e0041 rdi: 0x00000000_00000005
-r8 : 0x00000000_00000000 r9 : 0x00000000_00000000
-r10: 0x00000000_00000000 r11: 0x00000000_00000000
-r12: 0x00000000_00000000 r13: 0x00000000_00000000
-r14: 0x00000000_00000000 r15: 0x00000000_00000000
-rip: 0x00000000_00000019
-eflags 0x00000046: id vip vif ac vm rf nt IOPL=0 of df if tf sf ZF af PF cf
+Next at t=3964181000
+(0) [0x0000000000000596] 0008:0000000000000596 (unk. ctxt): add byte ptr ds:[eax], al ; 0000
+<bochs:1> sreg
+es:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=1
+	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
+cs:0x0008, dh=0x00cf9b00, dl=0x0000ffff, valid=1
+	Code segment, base=0x00000000, limit=0xffffffff, Execute/Read, Non-Conforming, Accessed, 32-bit
+ss:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=1
+	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
+ds:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=1
+	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
+fs:0x07c0, dh=0x00009300, dl=0x7c00ffff, valid=1
+	Data segment, base=0x00007c00, limit=0x0000ffff, Read/Write, Accessed
+gs:0x07c0, dh=0x00009300, dl=0x7c00ffff, valid=1
+	Data segment, base=0x00007c00, limit=0x0000ffff, Read/Write, Accessed
+ldtr:0x0000, dh=0x00008200, dl=0x0000ffff, valid=1
+tr:0x0000, dh=0x00008b00, dl=0x0000ffff, valid=1
+gdtr:base=0x000000000000051a, limit=0x17
+idtr:base=0x0000000000000000, limit=0x3ff
 <bochs:2> quit
-(0).[1817786205] [0x0000000000000519] 0050:0019 (unk. ctxt): push ax                   ; 50
+(0).[3964181000] [0x0000000000000596] 0008:0000000000000596 (unk. ctxt): add byte ptr ds:[eax], al ; 0000
