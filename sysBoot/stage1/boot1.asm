@@ -3,7 +3,7 @@ bits 16
 start:
     jmp main 
 
-bpbOEM: db "My OS "
+bpbOEM: db "My OS   "
 bpbBytesPerSector: dw 512
 bpbSectorsPerCluster: db 1
 bpbReservedSectors: dw 1
@@ -21,7 +21,7 @@ bsUnsed: db 0
 bsExtBootSignature: db 0x29
 bsSerialNumber: dd 0xa0a1a2a3
 bsVolumeLabel: db "MOS FLOPPY "
-bsFileSystem: db "FAT12  "
+bsFileSystem: db "FAT12   "
 
 print:
     lodsb
@@ -212,11 +212,11 @@ absoluteHead: db 0x00
 absoluteTrack: db 0x00
 datasector: dw 0x0000
 cluster: dw 0x0000
-imageName: db "stage2  bin"
+imageName: db "STAGE2  BIN"
 msgLoading: db 0x0d, 0x0a, "Loading Boot Image ", 0x0d, 0x0a, 0x00
 msgCRLF: db 0x0d, 0x0a, 0x00
 msgProgress: db ".", 0x00
-msgFailure: db 0x0d, 0x0a, "ERROR : press Any Key to Reboot", 0x0a, 0x00
+msgFailure: db 0x0d, 0x0a, "ERROR : press Any Key to Reboot", 0x0d,0x0a, 0x00
 
 times 510 - ($-$$) db 0
 dw 0xaa55
