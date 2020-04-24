@@ -1,24 +1,7 @@
 Next at t=0
 (0) [0x00000000fffffff0] f000:fff0 (unk. ctxt): jmp far f000:e05b         ; ea5be000f0
 continue
-Next at t=3964181000
-(0) [0x0000000000000596] 0008:0000000000000596 (unk. ctxt): add byte ptr ds:[eax], al ; 0000
-<bochs:1> sreg
-es:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=1
-	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
-cs:0x0008, dh=0x00cf9b00, dl=0x0000ffff, valid=1
-	Code segment, base=0x00000000, limit=0xffffffff, Execute/Read, Non-Conforming, Accessed, 32-bit
-ss:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=1
-	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
-ds:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=1
-	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
-fs:0x07c0, dh=0x00009300, dl=0x7c00ffff, valid=1
-	Data segment, base=0x00007c00, limit=0x0000ffff, Read/Write, Accessed
-gs:0x07c0, dh=0x00009300, dl=0x7c00ffff, valid=1
-	Data segment, base=0x00007c00, limit=0x0000ffff, Read/Write, Accessed
-ldtr:0x0000, dh=0x00008200, dl=0x0000ffff, valid=1
-tr:0x0000, dh=0x00008b00, dl=0x0000ffff, valid=1
-gdtr:base=0x000000000000051a, limit=0x17
-idtr:base=0x0000000000000000, limit=0x3ff
-<bochs:2> quit
-(0).[3964181000] [0x0000000000000596] 0008:0000000000000596 (unk. ctxt): add byte ptr ds:[eax], al ; 0000
+Next at t=1261828005
+(0) [0x0000000000000695] 0008:0000000000000695 (unk. ctxt): or cl, byte ptr ds:[edx]  ; 0a0a
+<bochs:1> quit
+(0).[1261828005] [0x0000000000000695] 0008:0000000000000695 (unk. ctxt): or cl, byte ptr ds:[edx]  ; 0a0a

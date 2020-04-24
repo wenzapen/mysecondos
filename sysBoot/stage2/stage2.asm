@@ -5,8 +5,9 @@ jmp main
 
 %include "sysBoot/stage2/stdio.h"
 %include "sysBoot/stage2/gdt.h"
+%include "sysBoot/stage2/A20.h"
 
-loadingMsg db 0xd, 0xa, "Searching for Operating System...", 0x0
+loadingMsg db 0xa, "Searching for Operating System...", 0x0
 
 main:
 	cli
@@ -22,6 +23,7 @@ main:
 	call print16
 
 	call installGDT
+	call enableA20_kbrd
 	
 	cli		;entering p-mode
 	mov eax, cr0
@@ -36,6 +38,12 @@ stage3:
 	mov ss, ax
 	mov es, ax
 	mov esp, 0x90000
+; clear screen
+	call clrScr32
+	mov ebx, msg
+	call print32
+; stop execution
 	cli
 	hlt
-
+msg db 0xA, 0xA, 0xA, "          <[ OS Development Series Tutorial 10 ]>"
+    db 0xA, 0xA,         "        Basic 32 bit graphics demo in Assembly Language", 0
