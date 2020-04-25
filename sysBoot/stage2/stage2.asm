@@ -6,6 +6,8 @@ jmp main
 %include "sysBoot/stage2/stdio.h"
 %include "sysBoot/stage2/gdt.h"
 %include "sysBoot/stage2/A20.h"
+%include "sysBoot/stage2/common.h"
+%include "sysBoot/stage2/fat12.h"
 
 loadingMsg db 0xa, "Searching for Operating System...", 0x0
 msgFailure db 0xa, "*** FATAL: MISSING OR CURRUPT KERNEL.BIN", 0x0
@@ -74,7 +76,7 @@ stage3:
 
 copyImage:
 	mov eax, dword [imageSize]
-	movzx ebx, word [bpbBytePerSector]
+	movzx ebx, word [bpbBytesPerSector]
 	mul ebx
 	mov ebx, 4
 	div ebx

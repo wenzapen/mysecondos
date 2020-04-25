@@ -4,7 +4,7 @@
 bits 16
 
 bpbOEM db "My OS   "
-bpbBytePerSector: dw 512
+bpbBytesPerSector: dw 512
 bpbSectorsPerCluster: db 1
 bpbReservedSectors: dw 1
 bpbNumberOfFATs: db 2
@@ -16,7 +16,7 @@ bpbSectorsPerTrack: dw 18
 bpbHeadsPerCylinder: dw 2
 bpbHiddenSectors: dd 0
 bpbTotalSectorsBig: dd 0
-bsDriverNumber: db 0
+bsDriveNumber: db 0
 bsUnused: db 0
 bsExtBootsSignature: db 0x29
 bsSerialNumber: dd 0xa0a1a2a3
@@ -74,16 +74,7 @@ LBACHS:
 ;************************************************
 
 readSectors:
-;***********************************************
-;
-; reads a series of sectors
-; cx: number of sectors to read
-; ax: starting sector
-; es:ebx : buffer to read to
-;************************************************
-
-readSectors:
-	.main 
+	.main: 
 		mov di, 0x5 ; five retries for error
 	.sectorloop:
 		push ax
@@ -107,7 +98,7 @@ readSectors:
 		jnz .sectorloop
 		int 0x18
 
-	.success
+	.success:
 		pop cx
 		pop bx
 		pop ax

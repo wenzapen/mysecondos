@@ -19,8 +19,12 @@ install-bootloader: sysBoot/stage1/boot1.bin
 install-kernel: 
 	sudo rm -rf /home/wenzapen/floppy/stage2.bin
 	rm -rf sysBoot/stage2/stage2.bin 
+	sudo rm -rf /home/wenzapen/floppy/kernel.bin
+	rm -rf sysBoot/kernel/kernel.bin 
 	nasm -f bin sysBoot/stage2/stage2.asm -o sysBoot/stage2/stage2.bin
+	nasm -f bin sysBoot/kernel/stage3.asm -o sysBoot/kernel/kernel.bin
 	sudo cp sysBoot/stage2/stage2.bin /home/wenzapen/floppy/
+	sudo cp sysBoot/kernel/kernel.bin /home/wenzapen/floppy/
 
 
 sysBoot/stage1/boot1.bin: sysBoot/stage1/boot1.asm
@@ -28,9 +32,13 @@ sysBoot/stage1/boot1.bin: sysBoot/stage1/boot1.asm
 
 sysBoot/stage2/stage2.bin: sysBoot/stage2/stage2.asm
 	nasm -f bin $^ -o $@ 
+
+sysBoot/kernel/kernel.bin: sysBoot/kernel/stage3.asm
+	nasm -f bin $^ -o $@ 
 clean:
-	rm sysBoot/stage2/stage2.bin 
+	rm sysBoot/stage2/stage2.bin sysBoot/kernel/kernel.bin 
 clean-all:
-	rm sysBoot/stage1/boot1.bin sysBoot/stage2/stage2.bin floppy.img
+	rm sysBoot/stage1/boot1.bin sysBoot/stage2/stage2.bin 
+	rm sysBoot/kernel/kernel.bin floppy.img
 	sudo umount /home/wenzapen/floppy
 	sudo losetup -d /dev/loop20

@@ -1,6 +1,16 @@
 %ifndef FAT12_H
 %define FAT12_H
 
+bits 16
+%include "sysBoot/stage2/floppy16.h"
+%include "sysBoot/stage2/stdio.h"
+
+%define ROOT_OFFSET 0x2e00
+%define FAT_SEG 0x2c0
+%define ROOT_SEG 0x2e0
+
+msgLoadRoot: db 0xa, " load root directory", 0xa, 0
+msgLoadFat: db 0xa, " load fat", 0xa, 0
 
 ;************************************************
 ; loadRoot
@@ -16,7 +26,7 @@ loadRoot:
 	mov ax, 32
 	mul WORD [bpbRootEntries]
 	div WORD [bpbBytesPerSector] ; ax: quotient; dx: remainder
-	xchg ax, cx 
+	xchg ax, cx
 ; compute location of root directory and store in ax
 	mov al, BYTE [bpbNumberOfFATs]
 	mul WORD [bpbSectorsPerFAT]
@@ -74,17 +84,17 @@ findFile:
 	mov cx, WORD [bpbRootEntries]
 	mov di, ROOT_OFFSET
 	cld
-.loop:
+.LOOP:
 	push cx
 	mov cx, 11
 	mov si, bx
 	push di
-	req cmpsb
+	rep cmpsb
 	pop di
 	je .found
 	pop cx
 	add di, 32
-	loop .loop
+	loop .LOOP
 .notFound:
 	pop bx
 	pop dx
