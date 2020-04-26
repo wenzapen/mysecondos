@@ -1,47 +1,7 @@
 Next at t=0
 (0) [0x00000000fffffff0] f000:fff0 (unk. ctxt): jmp far f000:e05b         ; ea5be000f0
-<bochs:1> b 0x8f6
-<bochs:2> c
-(0) Breakpoint 1, 0x00000000000008f6 in ?? ()
-Next at t=355134677
-(0) [0x00000000000008f6] 0008:00000000000008f6 (unk. ctxt): jmp far (bad)             ; ffea
-<bochs:3> sreg
-es:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=7
-	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
-cs:0x0008, dh=0x00cf9b00, dl=0x0000ffff, valid=1
-	Code segment, base=0x00000000, limit=0xffffffff, Execute/Read, Non-Conforming, Accessed, 32-bit
-ss:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=7
-	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
-ds:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=7
-	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
-fs:0x07c0, dh=0x00009300, dl=0x7c00ffff, valid=1
-	Data segment, base=0x00007c00, limit=0x0000ffff, Read/Write, Accessed
-gs:0x07c0, dh=0x00009300, dl=0x7c00ffff, valid=1
-	Data segment, base=0x00007c00, limit=0x0000ffff, Read/Write, Accessed
-ldtr:0x0000, dh=0x00008200, dl=0x0000ffff, valid=1
-tr:0x0000, dh=0x00008b00, dl=0x0000ffff, valid=1
-gdtr:base=0x00000000000005f2, limit=0x17
-idtr:base=0x0000000000000000, limit=0x3ff
-<bochs:4> creg
-CR0=0x60000011: pg CD NW ac wp ne ET ts em mp PE
-CR2=page fault laddr=0x0000000000000000
-CR3=0x0000000000000000
-    PCD=page-level cache disable=0
-    PWT=page-level write-through=0
-CR4=0x00000000: smep osxsave pcid fsgsbase smx vmx osxmmexcpt osfxsr pce pge mce pae pse de tsd pvi vme
-CR8: 0x0
-EFER=0x00000000: ffxsr nxe lma lme sce
-<bochs:5> reg
-rax: 0x00000000_00000a88 rcx: 0x00000000_00000845
-rdx: 0x00000000_00000000 rbx: 0x00000000_00000004
-rsp: 0x00000000_00090000 rbp: 0x00000000_00003000
-rsi: 0x00000000_000038ec rdi: 0x00000000_fff70000
-r8 : 0x00000000_00000000 r9 : 0x00000000_00000000
-r10: 0x00000000_00000000 r11: 0x00000000_00000000
-r12: 0x00000000_00000000 r13: 0x00000000_00000000
-r14: 0x00000000_00000000 r15: 0x00000000_00000000
-rip: 0x00000000_000008f6
-eflags 0x00000086: id vip vif ac vm rf nt IOPL=0 of df if tf SF zf af PF cf
-<bochs:6> s
-(0).[355134677] [0x00000000000008f6] 0008:00000000000008f6 (unk. ctxt): jmp far (bad)             ; ffea
-(0).[355134677] [0x00000000000008f6] 0008:00000000000008f6 (unk. ctxt): jmp far (bad)             ; ffea
+<bochs:1> c
+Next at t=801414009
+(0) [0x000000000000092a] 0008:000000000000092a (unk. ctxt): jmp far 0008:00100000     ; ea000010000800
+<bochs:2> quit
+(0).[801414009] [0x000000000000092a] 0008:000000000000092a (unk. ctxt): jmp far 0008:00100000     ; ea000010000800

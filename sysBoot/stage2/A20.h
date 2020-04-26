@@ -13,6 +13,38 @@ enableA20_kbrd:
 	pop ax
 	ret
 
+_enableA20:
+	cli
+	call wait_input
+	mov al, 0xad
+	out 0x64, al
+	
+	
+	call wait_input
+	mov al, 0xd0
+	out 0x64, al
+
+	call wait_output
+	in al, 0x60
+	push eax
+
+	call wait_input
+	mov al, 0xd1
+	out 0x64, al
+
+	call wait_input
+	pop eax
+	or al, 0x2
+	out 0x60, al
+
+	call wait_input
+	mov al, 0xae
+	out 0x64, al
+
+	call wait_input
+	sti
+	ret
+
 ;wait until keyboard controller input buffer is empty , before write to it
 wait_input:
 	in al, 0x64

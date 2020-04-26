@@ -36,7 +36,8 @@ main:
 	call print16
 
 	call installGDT
-	call enableA20_kbrd
+	call _enableA20
+;	call enableA20_kbrd
 
 	call loadRoot  ; load root directory table
 
@@ -89,6 +90,7 @@ copyImage:
 	rep movsd
 	mov ebx, loadingKernel
 	call print32
+	hlt
 
 	jmp CODE_DESC:IMAGE_PMODE_BASE ; jump to kernel
 
