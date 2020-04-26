@@ -1,4 +1,6 @@
 #include "debugDisplay.h"
+#include <string.h>
+#include <stdarg.h>
 
 #define VID_MEMORY 0xB8000
 static unsigned int _xPos=0, _yPos=0;
@@ -56,6 +58,20 @@ void itoa_s(int i, unsigned base, char* buf) {
     itoa(i,base,buf);
 }
 
+unsigned debugSetColor(const unsigned c) {
+    unsigned t=_color;
+    _color=c;
+    return t;
+}
+
+void debugGotoXY(unsigned x, unsigned y) {
+    _xPos = x*2;
+    _yPos = y;
+    _startX = _xPos;
+    _startY = _yPos;
+
+}
+
 void debugClrScr(const unsigned short c) {
     unsigned char* p = (unsigned char*)VID_MEMORY;
     for(int i=0; i<2*80*25; i+=2) {
@@ -79,32 +95,35 @@ int debugPrintf(const char* str, ...) {
     for(size_t i=0; i<strlen(str);i++) {
 	switch(str[i]) {
 	    case '%':
-		switch(str[i+1] {
-		    case 'c':
+		switch(str[i+1]) {
+		    case 'c': {
 			char c = va_arg(args, char);
 			debugPutc(c);
 			i++;
 			break;
+		    }
 		    case 's':
 
 		    case 'p':
 
 		    case 'd':
-		    case 'i':
+		    case 'i': {
 			int c = va_arg(args, int);
 			char tstr[32] = {0};
 			itoa_s(c, 10, tstr);
 			debugPuts(tstr);
 			i++;
 			break;
+		    }
 		    case 'x':
-		    case 'X':
+		    case 'X': {
 			int c = va_arg(args, int);
 			char tstr[32] = {0};
 			itoa_s(c, 16, tstr);
 			debugPuts(tstr);
 			i++;
 			break;
+		    }
 
 		    default:
 			return 1;

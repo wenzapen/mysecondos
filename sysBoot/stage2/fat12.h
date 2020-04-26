@@ -139,12 +139,13 @@ loadFile:
 	push word ROOT_SEG
 	pop es
 	mov dx, WORD [es:di + 0x1a]
-	mov WORD [cluster], DX
+	mov WORD [cluster], dx
 	pop bx
 	pop es
 	push bx
 	push es
 	call loadFAT
+
 .loadImage:
 	;load the cluster
 	mov ax, WORD [cluster]
@@ -175,7 +176,7 @@ loadFile:
 	jnz .ODD_CLUSTER
 
 .EVEN_CLUSTER:
-	add dx, 0000111111111111b
+	and dx,0xfff 
 	jmp .done
 .ODD_CLUSTER:	
 	shr dx, 0x4

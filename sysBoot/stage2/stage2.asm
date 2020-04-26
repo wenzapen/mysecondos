@@ -11,7 +11,7 @@ jmp main
 
 loadingMsg db 0xa, "Searching for Operating System...", 0x0
 msgFailure db 0xa, "*** FATAL: MISSING OR CURRUPT KERNEL.BIN", 0x0
-
+loadingKernel db 0xa, "Loading Kernel...",0x0
 ;************************************************************
 ;
 ;	Stage 2 entry point
@@ -27,7 +27,7 @@ main:
 	xor ax, ax
 	mov ds, ax
 	mov es, ax
-	mov ax, 0x9000
+	mov ax, 0x0
 	mov ss, ax
 	mov sp, 0xffff	;stack begins at 0x9000:0xffff
 	sti
@@ -73,6 +73,8 @@ stage3:
 	mov ss, ax
 	mov es, ax
 	mov esp, 0x90000
+	mov ebx, loadingKernel
+	call print32
 
 copyImage:
 	mov eax, dword [imageSize]
@@ -85,6 +87,8 @@ copyImage:
 	mov esi, IMAGE_RMODE_BASE
 	mov edi, IMAGE_PMODE_BASE
 	rep movsd
+	mov ebx, loadingKernel
+	call print32
 
 	jmp CODE_DESC:IMAGE_PMODE_BASE ; jump to kernel
 
