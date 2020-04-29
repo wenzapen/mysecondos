@@ -12,6 +12,21 @@ jmp main
 loadingMsg db 0xa, "Searching for Operating System...", 0x0
 msgFailure db 0xa, "*** FATAL: MISSING OR CURRUPT KERNEL.BIN", 0x0
 loadingKernel db 0xa, "Loading Kernel...",0x0
+
+; elf header
+e_entry: dd 0
+e_phoff: dd 0
+e_phentsize: dd 0
+e_phnum: dd 0
+ph_base: dd 0
+
+; program header
+p_offset: dd 0  ; ph+4
+p_paddr: dd 0 ; ph+12
+p_filesz: dd 0 ; ph+16
+p_memsz: dd 0 ; ph+20
+p_segment_base: dd 0
+
 ;************************************************************
 ;
 ;	Stage 2 entry point
@@ -77,6 +92,68 @@ stage3:
 	mov ebx, loadingKernel
 	call print32
 
+; load kernel to IMAGE_PMODE_BASE(0x100000)
+; 
+
+loadKernel:
+	mov eax, IMAGE_PMODE_BASE
+	add eax, 24
+	mov ebx, [eax]
+	mov dword [e_entry], ebx 
+	add eax, 4
+	mov ebx, [eax]
+	mov dword [e_phoff], ebx 
+	add ebx, IMAGE_PMODE_BASE
+	mov dword [ph_base], ebx
+	add eax, 14
+	mov ebx, [eax]
+	mov dword [e_phentsize], ebx 
+	add eax, 2
+	mov ebx, [eax]
+	mov dword [e_phnum], ebx 
+	mov ecx, ebx  ; put number of program headers in ecx
+
+.copy_segment:
+	push ecx
+	mov eax, [ph_base]
+	add eax, 4
+	mov ebx, [eax]
+	mov dword [p_offset], ebx
+	add ebx, IMAGE_RMODE_BASE
+	mov dword [p_segment_base], ebx
+	mov esi, ebx   ; source of segment
+	add eax, 8
+	mov ebx, [eax]
+	mov dword [p_paddr], ebx
+	mov edi, ebx ; destination of segment
+	add eax, 4
+	mov ebx, [eax]
+	mov dword [p_filesz], ebx
+	mov ecx, ebx
+	add eax, 4
+	mov ebx, [eax]
+	mov dword [p_memsz], ebx
+	rep movsb
+	mov eax, dword [p_memsz]
+	sub eax, dword [p_filesz]
+	jz .no_padding
+	mov ecx, eax
+	mov al, 0
+	rep stosb
+
+.no_padding:
+	pop ecx
+	mov eax, dword [ph_base]
+	add eax, dword [e_phentsize]
+	mov dword [ph_base], eax
+	loop .copy_segment
+.execute:
+	mov eax, dword [e_entry]
+	mov ebp, eax
+	call ebp
+	cli
+	hlt	
+
 copyImage:
 	mov eax, dword [imageSize]
 	movzx ebx, word [bpbBytesPerSector]
@@ -92,8 +169,5 @@ copyImage:
 	call print32
 	hlt
 
-	jmp CODE_DESC:IMAGE_PMODE_BASE ; jump to kernel
+;	jmp CODE_DESC:IMAGE_PMODE_BASE ; jump to kernel
 
-; stop execution
-	cli
-	hlt

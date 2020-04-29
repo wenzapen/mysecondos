@@ -1,7 +1,7 @@
 Next at t=0
 (0) [0x00000000fffffff0] f000:fff0 (unk. ctxt): jmp far f000:e05b         ; ea5be000f0
-<bochs:1> c
-Next at t=801414009
-(0) [0x000000000000092a] 0008:000000000000092a (unk. ctxt): jmp far 0008:00100000     ; ea000010000800
-<bochs:2> quit
-(0).[801414009] [0x000000000000092a] 0008:000000000000092a (unk. ctxt): jmp far 0008:00100000     ; ea000010000800
+continue
+Next at t=540286295
+(0) [0x00000000000fff53] f000:ff53 (unk. ctxt): iret                      ; cf
+<bochs:1> quit
+(0).[540286295] [0x00000000000fff53] f000:ff53 (unk. ctxt): iret                      ; cf

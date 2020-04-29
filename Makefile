@@ -14,6 +14,10 @@ bochs:
 qemu:
 	qemu-system-i386 -fda floppy.img -monitor stdio
 
+qemu-debug:
+	qemu-system-i386 -fda floppy.img -s -monitor stdio &
+	${GDB} -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
+
 install: install-bootloader install-kernel
 
 install-bootloader: sysBoot/stage1/boot1.bin sysBoot/stage2/stage2.bin
