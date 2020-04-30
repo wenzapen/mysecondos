@@ -3,6 +3,7 @@ LD = i686-elf-ld
 CC = i686-elf-gcc
 C_SOURCES=$(wildcard sysCore/kernel/*.c \
 			sysCore/lib/*.c \
+			sysCore/hal/*.c \
 			)
 OBJ=$(C_SOURCES:.c=.o)
 CFLAGS=-g -ffreestanding -I sysCore/include

@@ -1,29 +1,25 @@
 #include "debugDisplay.h"
+#include <hal.h>
 
-void main() {
+int main() {
 
 
-    int i = 0x12;
     debugClrScr(0x18);
-    debugGotoXY(4,4);
-    debugSetColor(0x17);
-    debugPrintf("+------------------------------------+\n");
-    debugPrintf("|   MOS 32 Bit C Kernel Excuting!    |\n");
-    debugPrintf("+------------------------------------+\n\n");
-    debugSetColor(0x12);
+    debugGotoXY(0,0);
+    debugSetColor(0x70);
+    debugPrintf(" Microcomputer Operating System(MOS) Preparing to load...   ");
+    debugGotoXY(0,1);
+    debugSetColor(0x19);
+    debugPrintf(" MOS Starting Up...\n");
 
+    debugSetColor(0x70);
+    debugGotoXY(0,24);
+    debugPrintf(" Initializing Hardware Abstraction Layer (HAL.lib)...       ");
 
-    debugSetColor(0x12);
-    debugPrintf("\ni as integer ................:");
-    debugPrintf("\ni in hex ....................:");
-
-    debugGotoXY(25,8);
-    debugSetColor(0x1F);
-    debugPrintf("\n[%i]", i);
-    debugPrintf("\n[0x%x]", i);
-
-    debugGotoXY(4,16);
-    debugSetColor(0x1F);
-    debugPrintf("\n\nI am preparing to load... Hold on, please... :)");
+    debugSetColor(0x19);
+    debugGotoXY(0,2);
+    hal_initialize();
+    geninterrupt(0x15);
+    return 0;
 
 }
