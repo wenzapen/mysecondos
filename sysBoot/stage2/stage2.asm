@@ -16,8 +16,8 @@ loadingKernel db 0xa, "Loading Kernel...",0x0
 ; elf header
 e_entry: dd 0
 e_phoff: dd 0
-e_phentsize: dd 0
-e_phnum: dd 0
+e_phentsize: dw 0
+e_phnum: dw 0
 ph_base: dd 0
 
 ; program header
@@ -96,21 +96,21 @@ stage3:
 ; 
 
 loadKernel:
-	mov eax, IMAGE_PMODE_BASE
+	mov eax, IMAGE_RMODE_BASE
 	add eax, 24
 	mov ebx, [eax]
 	mov dword [e_entry], ebx 
 	add eax, 4
 	mov ebx, [eax]
 	mov dword [e_phoff], ebx 
-	add ebx, IMAGE_PMODE_BASE
+	add ebx, IMAGE_RMODE_BASE
 	mov dword [ph_base], ebx
 	add eax, 14
-	mov ebx, [eax]
-	mov dword [e_phentsize], ebx 
+	movzx ebx, word [eax]
+	mov word [e_phentsize], bx 
 	add eax, 2
-	mov ebx, [eax]
-	mov dword [e_phnum], ebx 
+	movzx ebx,word [eax]
+	mov word [e_phnum], bx 
 	mov ecx, ebx  ; put number of program headers in ecx
 
 .copy_segment:
