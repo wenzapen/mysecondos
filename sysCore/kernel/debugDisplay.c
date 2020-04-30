@@ -31,7 +31,9 @@ char bchars[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
 //convert unsigned integer to string, store in buf
 void itoa(unsigned i, unsigned base, char *buf) {
-    int pos, opos, top;
+    int pos=0;
+    int opos=0;
+    int top=0;
     if(i==0 || base>16) {
 	*buf++ = '0';
 	*buf = '\0';
@@ -126,6 +128,7 @@ int debugPrintf(const char* str, ...) {
 		    }
 
 		    default:
+			va_end(args);
 			return 1;
 		}
 		break;
@@ -135,4 +138,5 @@ int debugPrintf(const char* str, ...) {
 		break;
 	}
     }
+    va_end(args);
 }

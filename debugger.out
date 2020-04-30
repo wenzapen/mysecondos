@@ -1,5 +1,7 @@
 Next at t=0
 (0) [0x00000000fffffff0] f000:fff0 (unk. ctxt): jmp far f000:e05b         ; ea5be000f0
 continue
-(0).[961679488] [0x0000000000000003] 0008:0000000000000003 (unk. ctxt): int1                      ; f1
-(0).[961679488] [0x0000000000000003] 0008:0000000000000003 (unk. ctxt): int1                      ; f1
+Next at t=1856881906
+(0) [0x00000000000009d9] 0008:00000000000009d9 (unk. ctxt): mov eax, dword ptr ds:0x663 ; a163060000
+<bochs:1> quit
+(0).[1856881906] [0x00000000000009d9] 0008:00000000000009d9 (unk. ctxt): mov eax, dword ptr ds:0x663 ; a163060000

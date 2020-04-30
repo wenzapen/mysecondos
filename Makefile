@@ -32,7 +32,7 @@ install-kernel: kernel.elf
 #	sudo rm -rf /home/wenzapen/floppy/stage2.bin
 #	rm -rf sysBoot/stage2/stage2.bin 
 #	sudo rm -rf /home/wenzapen/floppy/kernel.bin
-#	sudo rm -rf /home/wenzapen/floppy/kernel.elf
+	sudo rm -rf /home/wenzapen/floppy/kernel.elf
 #	rm -rf sysBoot/kernel/kernel.bin 
 #	rm -rf kernel.elf 
 #	nasm -f bin sysBoot/stage2/stage2.asm -o sysBoot/stage2/stage2.bin
