@@ -26,8 +26,8 @@ struct gdt_descriptor {
     uint8_t baseHi;
 }__attribute__((packed));
 
-void gdt_set_descriptor(uint32_t i,uint64_t limit,uint8_t access,uint8_t grand);
-gdt_descriptor* i86_gdt_get_descriptor(int i);
+void gdt_set_descriptor(uint32_t i,uint32_t base,uint32_t limit,uint8_t access,uint8_t grand);
+struct gdt_descriptor* i86_gdt_get_descriptor(int i);
 int i86_gdt_initialize();
 
 

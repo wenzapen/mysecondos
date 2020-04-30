@@ -15,7 +15,7 @@ struct idt_descriptor {
     uint16_t baseHi;
 }__attribute__((packed));
 
-idt_descriptor* i86_get_ir(uint32_t i);
+struct idt_descriptor* i86_get_ir(uint32_t i);
 int i86_install_ir(uint32_t i,uint16_t flags,uint16_t sel,I86_IRQ_HANDLER);
 int i86_idt_initialize(uint16_t codeSel);
 

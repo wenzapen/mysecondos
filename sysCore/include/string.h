@@ -5,4 +5,6 @@
 
 size_t strlen(const char* str);
 
+void *memset(void *dest, char val, size_t count);
+
 #endif
