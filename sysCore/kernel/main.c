@@ -19,8 +19,7 @@ int main() {
     debugSetColor(0x19);
     debugGotoXY(0,2);
     hal_initialize();
-    while(1);
-    geninterrupt(0x15);
+    geninterrupt(32);
     return 0;
 
 }

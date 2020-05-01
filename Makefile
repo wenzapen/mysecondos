@@ -5,7 +5,11 @@ C_SOURCES=$(wildcard sysCore/kernel/*.c \
 			sysCore/lib/*.c \
 			sysCore/hal/*.c \
 			)
-OBJ=$(C_SOURCES:.c=.o)
+S_SOURCES=$(wildcard sysCore/kernel/*.asm \
+			sysCore/lib/*.asm \
+			sysCore/hal/*.asm \
+			)
+OBJ=$(C_SOURCES:.c=.o) $(S_SOURCES:.asm=.o)
 CFLAGS=-g -ffreestanding -I sysCore/include -D _DEBUG
 
 
@@ -58,6 +62,8 @@ kernel.elf: ${OBJ}
 
 %.o: %.c
 	${CC} ${CFLAGS} -c $< -o $@
+%.o: %.asm
+	nasm -felf $^ -o $@
 clean:
 	rm kernel.elf 
 	rm ${OBJ}
