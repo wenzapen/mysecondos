@@ -13,13 +13,14 @@ int main() {
     debugPrintf(" MOS Starting Up...\n");
 
     debugSetColor(0x70);
-    debugGotoXY(0,24);
+    debugGotoXY(0,4);
     debugPrintf(" Initializing Hardware Abstraction Layer (HAL.lib)...       ");
 
     debugSetColor(0x19);
     debugGotoXY(0,2);
     hal_initialize();
-//    geninterrupt(0x15);
+    while(1);
+    geninterrupt(0x15);
     return 0;
 
 }

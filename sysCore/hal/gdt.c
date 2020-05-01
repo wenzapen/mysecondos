@@ -4,7 +4,7 @@
 struct gdtr {
     uint16_t m_limit;
     uint32_t m_base;
-}__attribute((packed))__;
+}__attribute__((packed));
 
 static struct gdt_descriptor _gdt[MAX_DESCRIPTORS];
 static struct gdtr _gdtr;

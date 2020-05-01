@@ -17,5 +17,12 @@ void geninterrupt(int n) {
 */
 
 void geninterrupt(int n) {
-    asm volatile("int $3");
+   asm volatile("int $3");
+/*    asm volatile("movb %0, %%al": : "m"(n)); 
+    asm volatile("mov
+    asm volatile("mov %al, [genint+1]"); 
+    asm volatile("jmp genint"); 
+    asm volatile("genint:int $0");
+*/
+
 }

@@ -6,7 +6,7 @@ C_SOURCES=$(wildcard sysCore/kernel/*.c \
 			sysCore/hal/*.c \
 			)
 OBJ=$(C_SOURCES:.c=.o)
-CFLAGS=-g -ffreestanding -I sysCore/include
+CFLAGS=-g -ffreestanding -I sysCore/include -D _DEBUG
 
 
 
@@ -60,6 +60,7 @@ kernel.elf: ${OBJ}
 	${CC} ${CFLAGS} -c $< -o $@
 clean:
 	rm kernel.elf 
+	rm ${OBJ}
 clean-all:
 	rm sysBoot/stage1/boot1.bin sysBoot/stage2/stage2.bin 
 	rm kernel.elf floppy.img

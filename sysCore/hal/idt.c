@@ -18,6 +18,7 @@ static void i86_default_handler();
 
 static void idt_install() {
     asm volatile("lidt %0": : "m"(_idtr));
+    asm volatile("sti");
 }
 
 static void i86_default_handler() {

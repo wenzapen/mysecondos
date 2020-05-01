@@ -1,5 +1,24 @@
 Next at t=0
 (0) [0x00000000fffffff0] f000:fff0 (unk. ctxt): jmp far f000:e05b         ; ea5be000f0
 continue
-(0).[954183597] [0x00000000001006e0] 0008:00000000001006e0 (unk. ctxt): int3                      ; cc
-(0).[954183597] [0x00000000001006e0] 0008:00000000001006e0 (unk. ctxt): int3                      ; cc
+Next at t=823680788
+(0) [0x0000000000100597] 0008:0000000000100597 (unk. ctxt): jmp .-2 (0x00100597)      ; ebfe
+<bochs:1> sreg
+es:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=7
+	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
+cs:0x0008, dh=0x00cf9b00, dl=0x0000ffff, valid=1
+	Code segment, base=0x00000000, limit=0xffffffff, Execute/Read, Non-Conforming, Accessed, 32-bit
+ss:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=7
+	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
+ds:0x0010, dh=0x00cf9300, dl=0x0000ffff, valid=7
+	Data segment, base=0x00000000, limit=0xffffffff, Read/Write, Accessed
+fs:0x07c0, dh=0x00009300, dl=0x7c00ffff, valid=1
+	Data segment, base=0x00007c00, limit=0x0000ffff, Read/Write, Accessed
+gs:0x07c0, dh=0x00009300, dl=0x7c00ffff, valid=1
+	Data segment, base=0x00007c00, limit=0x0000ffff, Read/Write, Accessed
+ldtr:0x0000, dh=0x00008200, dl=0x0000ffff, valid=1
+tr:0x0000, dh=0x00008b00, dl=0x0000ffff, valid=1
+gdtr:base=0x00000000001015a0, limit=0x27
+idtr:base=0x0000000000100d80, limit=0x7ff
+<bochs:2> quit
+(0).[823680788] [0x0000000000100597] 0008:0000000000100597 (unk. ctxt): jmp .-2 (0x00100597)      ; ebfe
