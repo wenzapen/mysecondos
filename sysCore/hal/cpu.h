@@ -3,5 +3,6 @@
 
 int i86_cpu_initialize();
 int i86_cpu_shutdown();
+char* i86_cpu_get_vender();
 
 #endif
