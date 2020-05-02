@@ -34,7 +34,7 @@
 
 void i86_pit_send_command(uint8_t cmd);
 void i86_pit_send_data(uint16_t data, uint8_t counter);
-uint8_t i86_pit_read_data(uint16_t counter);
+uint8_t i86_pit_read_data(uint8_t counter);
 uint32_t i86_pit_set_tick_count(uint32_t i);
 uint32_t i86_pit_get_tick_count();
 void i86_pit_start_counter(uint32_t freq, uint8_t counter, uint8_t mode);

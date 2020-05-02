@@ -13,24 +13,26 @@ int main() {
 
 
     hal_initialize();
+//    geninterrupt(32);
 
 //! clear and init display
-	DebugClrScr (0x13);
-	DebugGotoXY (0,0);
-	DebugSetColor (0x19);
+	debugClrScr (0x13);
+	debugGotoXY (0,0);
+	debugSetColor (0x19);
 
 	//! render text and logo
-	DebugPuts (logo);
-	DebugSetColor (0x17);
-	DebugPuts ("Weee.... The PIC, PIT, and exception handlers are installed!\n\n");
-	DebugPuts ("Hitting any key will fire the default HAL handlers as we do\n");
-	DebugPuts ("not have a keyboard driver yet to install one.\n\n");
-	DebugPrintf ("Cpu vender: %s \n\n", get_cpu_vender ());
+	debugPuts (logo);
+	debugSetColor (0x17);
+	debugPuts ("Weee.... The PIC, PIT, and exception handlers are installed!\n\n");
+	debugPuts ("Hitting any key will fire the default HAL handlers as we do\n");
+	debugPuts ("not have a keyboard driver yet to install one.\n\n");
+	debugPrintf ("Cpu vender: %s \n\n", get_cpu_vender ());
 
 	// Go into a loop--constantly display the current tick count
 	for(;;) {
-		DebugGotoXY (0,14);
-		DebugPrintf ("Current tick count: %i", get_tick_count());
+		debugGotoXY (0,14);
+//		debugPrintf ("Current tick count: i");
+		debugPrintf ("Current tick count: %i", get_tick_count());
 	}
 
     return 0;

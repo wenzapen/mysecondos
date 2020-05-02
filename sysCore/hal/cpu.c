@@ -2,7 +2,7 @@
 #include "gdt.h"
 #include "idt.h"
 
-extern _i86_cpu_get_vender(void*);
+extern void _i86_cpu_get_vender(void*);
 
 int i86_cpu_initialize() {
     i86_gdt_initialize();

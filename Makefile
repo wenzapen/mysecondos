@@ -67,6 +67,7 @@ kernel.elf: ${OBJ}
 clean:
 	rm kernel.elf 
 	rm ${OBJ}
+	sudo rm /home/wenzapen/floppy/kernel.elf
 clean-all:
 	rm sysBoot/stage1/boot1.bin sysBoot/stage2/stage2.bin 
 	rm kernel.elf floppy.img

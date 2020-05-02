@@ -9,7 +9,7 @@ unsigned char inportb(unsigned short portid);
 void outportb(unsigned short portid, unsigned char value);
 void enable();
 void disable();
-void setvect(int intno, void (&vect)());
+void setvect(int intno, void (*vect)());
 const char* get_cpu_vender();
 int get_tick_count();
 

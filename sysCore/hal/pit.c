@@ -3,23 +3,33 @@
 #include "pit.h"
 #include "pic.h"
 
-#define I86_PIT_REG_COUNTER0 0x40
-#define I86_PIT_REG_COUNTER1 0x41
-#define I86_PIT_REG_COUNTER2 0x42
+#ifdef _DEBUG
+#include "../kernel/debugDisplay.h"
+#endif
+
+
+#define I86_PIT_REG_COUNTER_0 0x40
+#define I86_PIT_REG_COUNTER_1 0x41
+#define I86_PIT_REG_COUNTER_2 0x42
 #define I86_PIT_REG_COMMAND 0x43
 
-static volatile uint32_t _pit_ticks=0;
-static bool _pit_bIsInit=false;
+volatile uint32_t _pit_ticks=0;
+static int _pit_bIsInit=0;
 
 void i86_pit_irq();
 
 void i86_pit_irq() {
-//    asm("add esp,24");
-    asm("pushad");
+
+//    asm volatile("add $12,%esp");
+    asm volatile("cli");
+    asm volatile ("pusha");
     _pit_ticks++;
+    debugPrintf("*** [i86 Hal] PIT_Ticks: %d\n ", _pit_ticks);
     interruptdone(0);
-    asm("popad");
-    asm("iretd");
+    asm volatile ("popa");
+//    asm volatile("add $4,%esp");
+    asm volatile("sti");
+    asm volatile("iret");
 
 }
 
@@ -48,9 +58,9 @@ uint8_t i86_pit_read_data(uint8_t counter) {
     return inportb(port);
 }
 
-void i86_pit_start_counter(uint32_t fre, uint8_t counter, uint8_t mode) {
+void i86_pit_start_counter(uint32_t freq, uint8_t counter, uint8_t mode) {
     if(freq==0) return;
-    uint16_t divisor = uint16_t(1193181 / (uint16_t)freq);
+    uint16_t divisor = (uint16_t)(1193181 / (uint16_t)freq);
     uint8_t ocw=0;
     ocw = (ocw &~I86_PIT_OCW_MASK_MODE) | mode;
     ocw = (ocw &~I86_PIT_OCW_MASK_RL) | I86_PIT_OCW_RL_DATA;
@@ -65,7 +75,7 @@ void i86_pit_start_counter(uint32_t fre, uint8_t counter, uint8_t mode) {
 }
 
 void i86_pit_initialize() {
-    setvect(32, i86_pit_irq);
+//    setvect(32, i86_pit_irq);
     _pit_bIsInit = 1;
 }
 
