@@ -8,10 +8,39 @@ jmp main
 %include "sysBoot/stage2/A20.h"
 %include "sysBoot/stage2/common.h"
 %include "sysBoot/stage2/fat12.h"
+%include "sysBoot/stage2/bootinfo.h"
+%include "sysBoot/stage2/memory.h"
 
 loadingMsg db 0xa, "Searching for Operating System...", 0x0
 msgFailure db 0xa, "*** FATAL: MISSING OR CURRUPT KERNEL.BIN", 0x0
 loadingKernel db 0xa, "Loading Kernel...",0x0
+
+boot_info:
+istruc multiboot_info
+	at multiboot_info.flags,			dd 0
+	at multiboot_info.memoryLo,			dd 0
+	at multiboot_info.memoryHi,			dd 0
+	at multiboot_info.bootDevice,		dd 0
+	at multiboot_info.cmdLine,			dd 0
+	at multiboot_info.mods_count,		dd 0
+	at multiboot_info.mods_addr,		dd 0
+	at multiboot_info.syms0,			dd 0
+	at multiboot_info.syms1,			dd 0
+	at multiboot_info.syms2,			dd 0
+	at multiboot_info.mmap_length,		dd 0
+	at multiboot_info.mmap_addr,		dd 0
+	at multiboot_info.drives_length,	dd 0
+	at multiboot_info.drives_addr,		dd 0
+	at multiboot_info.config_table,		dd 0
+	at multiboot_info.bootloader_name,	dd 0
+	at multiboot_info.apm_table,		dd 0
+	at multiboot_info.vbe_control_info,	dd 0
+	at multiboot_info.vbe_mode_info,	dw 0
+	at multiboot_info.vbe_interface_seg,dw 0
+	at multiboot_info.vbe_interface_off,dw 0
+	at multiboot_info.vbe_interface_len,dw 0
+iend
+
 
 ; elf header
 e_entry: dd 0
@@ -50,9 +79,23 @@ main:
 	mov si, loadingMsg
 	call print16
 
+	mov [boot_info+multiboot_info.bootDevice], dl
+
 	call installGDT
 	call _enableA20
 ;	call enableA20_kbrd
+
+	xor eax, eax
+	xor ebx, ebx
+	call biosGetMemorySize64MB
+	mov word [boot_info+multiboot_info.memoryHi],bx
+	mov word [boot_info+multiboot_info.memoryLo], ax
+
+	mov eax, 0x0
+	mov ds, ax
+	movd di, 0x1000
+	call biosGetMemoryMap
+
 
 	call loadRoot  ; load root directory table
 
@@ -150,7 +193,12 @@ loadKernel:
 .execute:
 	mov eax, dword [e_entry]
 	mov ebp, eax
+	mov eax, 0x2badb002 ; multiboot specs say eax should be this
+	mov ebx, 0
+	mov edx, [imageSize]
+	push dword boot_info`
 	call ebp
+	add esp, 4
 	cli
 	hlt	
 
