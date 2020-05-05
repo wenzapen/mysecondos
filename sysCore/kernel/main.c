@@ -24,6 +24,7 @@ int main(struct multiboot_info* bootinfo) {
 
 //! get kernel size passed from boot loader by register edx
     uint32_t kernelSize = 0;
+    asm volatile("xor %eax, %eax");
     asm volatile("mov %%dx, %%ax":"=a"(kernelSize));
 
     //! make demo look nice :)

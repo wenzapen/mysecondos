@@ -104,7 +104,12 @@ int debugPrintf(const char* str, ...) {
 			i++;
 			break;
 		    }
-		    case 's':
+		    case 's': {
+			char *str = (char *) va_arg(args,int);
+			debugPuts(str);
+			i++;
+			break;
+		    }
 
 		    case 'p':
 

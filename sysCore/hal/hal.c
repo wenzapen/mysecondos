@@ -21,19 +21,8 @@ typedef struct registers_struct {
 
 
 int hal_initialize() {
-    #ifdef _DEBUG
-    debugClrScr(0x18);
-    debugSetColor(0x70);
-    debugPrintf("start to initialising CPU\n");
-    #endif
     i86_cpu_initialize();
-    #ifdef _DEBUG
-    debugPrintf("start to initialising PIC\n");
-    #endif
     i86_pic_initialize(0x20, 0x28);
-    #ifdef _DEBUG
-    debugPrintf("start to initialising PIT\n");
-    #endif
     i86_pit_initialize();
     i86_pit_start_counter(100, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);
     enable();
