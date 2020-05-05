@@ -3,7 +3,7 @@
 
 bits 16
 
-struc memeoryMapEntry
+struc memoryMapEntry
 	.baseAddress resq 1
 	.length resq 1
 	.type resd 1

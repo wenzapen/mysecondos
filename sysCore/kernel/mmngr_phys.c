@@ -57,9 +57,9 @@ int mmap_test(int bit) {
 
 int mmap_first_free() {
     for(uint32_t i=0; i<pmmngr_get_block_count()/32; i++) {
-	if(_mmngr_memory_map[i]) != 0xffffffff) {
+	if(_mmngr_memory_map[i] != 0xffffffff) {
 	    for( int j=0; j<32; j++) {
-		if( !(_mmngr_memory_map[i] & (1 << j))
+		if( !(_mmngr_memory_map[i] & (1 << j)))
 		    return i*32+j;
 	    }
 	}
@@ -71,9 +71,9 @@ int mmap_first_free_s(size_t size) {
     if(size == 0) return -1;
     if(size == 1) return mmap_first_free();
     for(uint32_t i=0; i<pmmngr_get_block_count()/32; i++) {
-        if(_mmngr_memory_map[i]) != 0xffffffff) {
+        if(_mmngr_memory_map[i] != 0xffffffff) {
             for( int j=0; j<32; j++) {
-                if( !(_mmngr_memory_map[i] & (1 << j)) {
+                if( !(_mmngr_memory_map[i] & (1 << j))) {
 		    int startingBit = i*32 + j;
 		    uint32_t free = 0;
 		    for(uint32_t count=0; count<=size;count++) {
@@ -104,7 +104,7 @@ void pmmngr_init_region(physical_addr base, size_t size) {
     int align = base / PMMNGR_BLOCK_SIZE;
     int blocks = size / PMMNGR_BLOCK_SIZE;
 
-    for(; blocks>=0; block--) {
+    for(; blocks>=0; blocks--) {
 	mmap_unset(align++);
 	_mmngr_used_blocks--;
     }
@@ -112,11 +112,11 @@ void pmmngr_init_region(physical_addr base, size_t size) {
 
 }
 
-void pmmngr_deinit_region(physical_dddr base, size_t size) {
+void pmmngr_deinit_region(physical_addr base, size_t size) {
     int align = base / PMMNGR_BLOCK_SIZE;
     int blocks = size / PMMNGR_BLOCK_SIZE;
 
-    for(; blocks>=0; block--) {
+    for(; blocks>=0; blocks--) {
 	mmap_set(align++);
 	_mmngr_used_blocks++;
     }
@@ -141,7 +141,7 @@ void pmmngr_free_block(void* p) {
 
 void* pmmngr_alloc_blocks(size_t size) {
     if(pmmngr_get_free_block_count() <= size) return 0;
-    int frame = mmap_first_free_s();
+    int frame = mmap_first_free_s(size);
     if(frame == -1) return 0;
     for(uint32_t i=0; i<size; i++) 
         mmap_set(frame+i);
@@ -156,7 +156,7 @@ void pmmngr_free_blocks(void* p, size_t size) {
     physical_addr addr = (physical_addr)p;
     int frame = addr / PMMNGR_BLOCK_SIZE;
     for(uint32_t i=0; i<size; i++) 
-	map_unset(frame+i);
+	mmap_unset(frame+i);
     _mmngr_used_blocks -= size;
 
 }

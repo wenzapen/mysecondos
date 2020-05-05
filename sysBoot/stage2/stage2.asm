@@ -93,7 +93,7 @@ main:
 
 	mov eax, 0x0
 	mov ds, ax
-	movd di, 0x1000
+	mov di, 0x1000
 	call biosGetMemoryMap
 
 
@@ -196,7 +196,7 @@ loadKernel:
 	mov eax, 0x2badb002 ; multiboot specs say eax should be this
 	mov ebx, 0
 	mov edx, [imageSize]
-	push dword boot_info`
+	push dword boot_info
 	call ebp
 	add esp, 4
 	cli

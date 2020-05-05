@@ -26,6 +26,6 @@ struct multiboot_info {
     uint16_t m_vbe_mode;
     uint32_t m_vbe_interface_addr;
     uint16_t m_vbe_interface_len;
-}
+};
 
 #endif

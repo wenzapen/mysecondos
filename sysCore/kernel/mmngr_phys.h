@@ -1,7 +1,8 @@
-#ifndef MMNGR_PHYS_H
-#define MMNGR_PHYS_H
+#ifndef _MMNGR_PHYS_H
+#define _MMNGR_PHYS_H
 
 #include <stdint.h>
+#include <size_t.h>
 
 typedef uint32_t physical_addr;
 
