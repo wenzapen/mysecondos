@@ -126,6 +126,9 @@ enterStage3:
 	jmp CODE_DESC:stage3	;far jump to load CS
 
 bits 32
+
+%include "sysBoot/stage2/paging.h"
+
 stage3:
 	mov ax, DATA_DESC
 	mov ds, ax
@@ -134,6 +137,8 @@ stage3:
 	mov esp, 0x90000
 	mov ebx, loadingKernel
 	call print32
+
+	call enablePaging
 
 ; load kernel to IMAGE_PMODE_BASE(0x100000)
 ; 

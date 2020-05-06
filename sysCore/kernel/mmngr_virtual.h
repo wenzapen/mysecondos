@@ -10,18 +10,18 @@ typedef uint32_t virtual_addr;
 #define PAGES_PER_TABLE 1024
 #define TABLES_PER_DIR  1024
 
-#define PAGE_DIRECTORY_INDEX(x) ((x)>>22) & 0x3ff)
-#define PAGE_TABLE_INDEX(x) ((x)>>12) & 0x3ff)
+#define PAGE_DIRECTORY_INDEX(x) (((x)>>22) & 0x3ff)
+#define PAGE_TABLE_INDEX(x) (((x)>>12) & 0x3ff)
 #define PAGE_GET_PHYSICAL_ADDRESS(x) (*x & ~0xfff)
 
 
-struct ptable {
+typedef struct  {
     pt_entry m_entries[PAGES_PER_TABLE];
-};
+} ptable;
 
-struct pdirectory {
+typedef struct  {
     pd_entry m_entries[TABLES_PER_DIR];
-};
+} pdirectory;
 
 //! maps phys to virtual address
 void mm_map_page(void *phys, void *virt);

@@ -34,8 +34,16 @@ enablePaging:
 	mov dword [PAGE_DIR], eax
 	mov eax, PAGE_TABLE_768 | PRIV
 	mov dword [PAGE_DIR+768*4], eax
+; install directory table
+	mov eax, PAGE_DIR
+	mov cr3, eax
+; enable paging
+	mov eax, cr0
+	or eax, 0x80000000
+	mov cr0, eax
 
-
+	popa
+	ret
 
 
 %endif

@@ -67,7 +67,7 @@ biosGetMemorySize64MB_32Bit:
 	push edx
 	xor ecx, ecx
 	xor edx, edx
-	mov ax, 0xe881
+	mov eax, 0xe881
 	int 0x15
 	jc .error
 	cmp ah, 0x86 ;unsupported function

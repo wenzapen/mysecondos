@@ -3,6 +3,7 @@ global _pmmngr_paging_enable
 global _pmmngr_is_paging
 global _pmmngr_load_PDBR
 global _pmmngr_get_PDBR
+global _vmmngr_flush_tlb_entry
 
 _pmmngr_paging_enable:
 	mov eax, [0x4+esp]
@@ -37,6 +38,6 @@ _pmmngr_get_PDBR:
 _vmmngr_flush_tlb_entry:
 	mov eax, [0x4+esp]
 	cli
-	invlpg eax
+	invlpg [eax]
 	sti
 	ret

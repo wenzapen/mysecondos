@@ -2,6 +2,7 @@
 #include <hal.h>
 #include <bootinfo.h>
 #include "mmngr_phys.h"
+#include "mmngr_virtual.h"
 
 struct memory_region {
     uint32_t startLo;
@@ -20,26 +21,20 @@ char* strMemoryTypes[] = {
     "ACPI NVS Memory"  //memory_region.type==3
 };
 
+uint32_t kernelSize = 0;
+uint32_t size = 0;
+
 int main(struct multiboot_info* bootinfo) {
 
 //! get kernel size passed from boot loader by register edx
-    uint32_t kernelSize = 0;
     asm volatile("xor %eax, %eax");
     asm volatile("mov %%dx, %%ax":"=a"(kernelSize));
 
     //! make demo look nice :)
     debugClrScr (0x13);
     debugGotoXY (0,0);
-    
-    debugSetColor (0x3F);
-    debugPrintf ("                    ~[ Physical Memory Manager Demo ]~                          ");
-    
-    debugGotoXY (0,24);
-    debugSetColor (0x3F);
-    debugPrintf ("                                                                                ");
-    
-    debugGotoXY (0,2);
     debugSetColor (0x17);
+    debugPrintf ("M.O.S Kernel is starting up...\n ");
 
     hal_initialize();
 
@@ -47,7 +42,7 @@ int main(struct multiboot_info* bootinfo) {
     uint32_t memSize = 1024+bootinfo->m_memoryLo+bootinfo->m_memoryHi*64;
 
 // ! place memory bit map used by PMM at the end of the kernel in memory
-    pmmngr_init(memSize, 0x100000+kernelSize*512);
+    pmmngr_init(memSize, 0xc0000000+kernelSize*512);
 
     debugPrintf("pmm initialized with %d KB physical memory; memLo: %d memHi: %d\n\n", memSize, bootinfo->m_memoryLo, bootinfo->m_memoryHi);
 
@@ -86,25 +81,12 @@ int main(struct multiboot_info* bootinfo) {
     
     debugSetColor (0x17);
     
-    debugPrintf ("\npmm regions initialized: %i allocation blocks; used or reserved blocks: %i\nfree blocks: %i\n",
-    	pmmngr_get_block_count (),  pmmngr_get_use_block_count (), pmmngr_get_free_block_count () );
+    debugPrintf ("\npmm regions initialized: %i allocation blocks; block size: %i bytes\n",
+    	pmmngr_get_block_count (), pmmngr_get_block_size () );
     
-    //! allocating and deallocating memory examples...
-    
-    debugSetColor (0x12);
-    
-    uint32_t* p = (uint32_t*)pmmngr_alloc_block ();
-    debugPrintf ("\np allocated at 0x%x", p);
-    
-    uint32_t* p2 = (uint32_t*)pmmngr_alloc_blocks (2);
-    debugPrintf ("\nallocated 2 blocks for p2 at 0x%x", p2);
-    
-    pmmngr_free_block (p);
-    p = (uint32_t*)pmmngr_alloc_block ();
-    debugPrintf ("\nUnallocated p to free block 1. p is reallocated to 0x%x", p);
-    
-    pmmngr_free_block (p);
-    pmmngr_free_blocks (p2, 2);
+    vmmngr_initialize();
+    disable();
+    while(1);
 
     return 0;
 

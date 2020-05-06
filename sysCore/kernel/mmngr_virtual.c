@@ -48,8 +48,8 @@ int vmmngr_alloc_page(pt_entry* e) {
     void* f = pmmngr_alloc_block();
     if(!f)
 	return 0;
-    pt_entry_set_frame(e, (physical_addr)p);
-    pt_entry_add_attrib(e, I86_PET_PRESENT);
+    pt_entry_set_frame(e, (physical_addr)f);
+    pt_entry_add_attrib(e, I86_PTE_PRESENT);
 
     return 1;
 }
@@ -65,14 +65,14 @@ void vmmngr_initialize() {
     memset(table2, 0, sizeof(ptable));
 
     //! identity map 0~4Mb
-    for(int i=0,frame=0x0,xirt=0x00000000;i<1024;i++,frame+=4096,virt+=4096) {
+    for(int i=0,frame=0x0,virt=0x00000000;i<1024;i++,frame+=4096,virt+=4096) {
 	pt_entry page = 0;
 	pt_entry_add_attrib(&page, I86_PTE_PRESENT);
 	pt_entry_set_frame(&page, frame);
-	table2>m_entries[PAGE_TABLE_INDEX(virt)] = page;
+	table2->m_entries[PAGE_TABLE_INDEX(virt)] = page;
     }
     //!  map 1Mb to 3Gb
-    for(int i=0,frame=0x100000,xirt=0xc0000000;i<1024;i++,frame+=4096,virt+=4096) {
+    for(int i=0,frame=0x100000,virt=0xc0000000;i<1024;i++,frame+=4096,virt+=4096) {
 	pt_entry page = 0;
 	pt_entry_add_attrib(&page, I86_PTE_PRESENT);
 	pt_entry_set_frame(&page, frame);
