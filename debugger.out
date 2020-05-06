@@ -1,7 +1,7 @@
 Next at t=0
 (0) [0x00000000fffffff0] f000:fff0 (unk. ctxt): jmp far f000:e05b         ; ea5be000f0
 continue
-Next at t=2096043900
+Next at t=4076102003
 (0) [0x0000000000000b4a] 0008:0000000000000b4a (unk. ctxt): mov eax, dword ptr ds:0x663 ; a163060000
 <bochs:1> quit
-(0).[2096043900] [0x0000000000000b4a] 0008:0000000000000b4a (unk. ctxt): mov eax, dword ptr ds:0x663 ; a163060000
+(0).[4076102003] [0x0000000000000b4a] 0008:0000000000000b4a (unk. ctxt): mov eax, dword ptr ds:0x663 ; a163060000

@@ -96,19 +96,22 @@ void pmmngr_init(size_t memSize, physical_addr bitmap) {
     _mmngr_max_blocks = (pmmngr_get_memory_size()*1024)/PMMNGR_BLOCK_SIZE;
     _mmngr_used_blocks = _mmngr_max_blocks;
 
-    memset(_mmngr_memory_map, 0xf, pmmngr_get_block_count()/PMMNGR_BLOCKS_PER_BYTE);
+    memset(_mmngr_memory_map, 0xff, pmmngr_get_block_count()/PMMNGR_BLOCKS_PER_BYTE);
 
 }
 
+//! unset memory map if available
 void pmmngr_init_region(physical_addr base, size_t size) {
     int align = base / PMMNGR_BLOCK_SIZE;
     int blocks = size / PMMNGR_BLOCK_SIZE;
+    if((size % PMMNGR_BLOCK_SIZE) != 0)
+	blocks++;
 
-    for(; blocks>=0; blocks--) {
+    for(; blocks>0; blocks--) {
 	mmap_unset(align++);
 	_mmngr_used_blocks--;
     }
-    mmap_set(0);  // first block is always set. This inusres allocs can be 0
+//    mmap_set(0);  // first block is always set. This inusres allocs can't be 0
 
 }
 

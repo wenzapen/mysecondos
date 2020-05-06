@@ -76,7 +76,12 @@ int main(struct multiboot_info* bootinfo) {
     		pmmngr_init_region (region[i].startLo, region[i].sizeLo);
     }
     
-    //! deinit the region the kernel is in as its in use
+    debugSetColor (0x17);
+    
+    debugPrintf ("\npmm regions initialized: %i allocation blocks; used or reserved blocks: %i\nfree blocks: %i\n",
+    	pmmngr_get_block_count (),  pmmngr_get_use_block_count (), pmmngr_get_free_block_count () );
+    
+//! deinit the region the kernel is in as its in use
     pmmngr_deinit_region (0x100000, kernelSize*512);
     
     debugSetColor (0x17);
