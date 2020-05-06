@@ -53,3 +53,46 @@ int vmmngr_alloc_page(pt_entry* e) {
 
     return 1;
 }
+
+void vmmngr_initialize() {
+    ptable* table = (ptable*)pmmngr_alloc_block();
+    if(!table) return;
+
+    ptable* table2 = (ptable*)pmmngr_alloc_block();
+    if(!table2) return;
+    
+    memset(table, 0, sizeof(ptable));
+    memset(table2, 0, sizeof(ptable));
+
+    //! identity map 0~4Mb
+    for(int i=0,frame=0x0,xirt=0x00000000;i<1024;i++,frame+=4096,virt+=4096) {
+	pt_entry page = 0;
+	pt_entry_add_attrib(&page, I86_PTE_PRESENT);
+	pt_entry_set_frame(&page, frame);
+	table2>m_entries[PAGE_TABLE_INDEX(virt)] = page;
+    }
+    //!  map 1Mb to 3Gb
+    for(int i=0,frame=0x100000,xirt=0xc0000000;i<1024;i++,frame+=4096,virt+=4096) {
+	pt_entry page = 0;
+	pt_entry_add_attrib(&page, I86_PTE_PRESENT);
+	pt_entry_set_frame(&page, frame);
+	table->m_entries[PAGE_TABLE_INDEX(virt)] = page;
+    }
+
+   //! create default directory table
+    pdirectory* dir = (pdirectory*)pmmngr_alloc_block();
+    if(!dir) return;
+    memset(dir, 0, sizeof(pdirectory));
+
+    pd_entry* entry = &dir->m_entries[PAGE_DIRECTORY_INDEX(0xc0000000)];
+    pd_entry_add_attrib(entry, I86_PDE_PRESENT|I86_PDE_WRITABLE);
+    pd_entry_set_frame(entry, (physical_addr)table);
+    
+    pd_entry* entry2 = &dir->m_entries[PAGE_DIRECTORY_INDEX(0xc0000000)];
+    pd_entry_add_attrib(entry2, I86_PDE_PRESENT|I86_PDE_WRITABLE);
+    pd_entry_set_frame(entry2, (physical_addr)table2);
+
+    _cur_pdbr = (physical_addr)&dir->m_entries;
+    vmmngr_switch_pdirectory(dir);
+    pmmngr_paging_enable(1);
+}
