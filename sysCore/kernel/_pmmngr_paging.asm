@@ -33,3 +33,10 @@ _pmmngr_load_PDBR:
 _pmmngr_get_PDBR:
 	mov eax, cr3
 	ret
+
+_vmmngr_flush_tlb_entry:
+	mov eax, [0x4+esp]
+	cli
+	invlpg eax
+	sti
+	ret
