@@ -76,7 +76,8 @@ int main(struct multiboot_info* bootinfo) {
     debugPrintf ("\npmm regions initialized: %i allocation blocks; used or reserved blocks: %i\nfree blocks: %i\n",
     	pmmngr_get_block_count (),  pmmngr_get_use_block_count (), pmmngr_get_free_block_count () );
     
-//! deinit the region the kernel is in as its in use
+//! deinit the region the kernel is in as its in use; deinit 0~1Mb
+    pmmngr_deinit_region (0x0, 0x1000);
     pmmngr_deinit_region (0x100000, kernelSize*512);
     
     debugSetColor (0x17);
@@ -85,6 +86,11 @@ int main(struct multiboot_info* bootinfo) {
     	pmmngr_get_block_count (), pmmngr_get_block_size () );
     
     vmmngr_initialize();
+
+//! trigger page fault  
+//    uint32_t *p = (uint32_t *)0x20000000;
+//    uint32_t t = *p; 
+
     disable();
     while(1);
 

@@ -27,8 +27,12 @@ _pmmngr_is_paging:
 	ret
 
 _pmmngr_load_PDBR:
-	mov eax, [0x4+esp]
+	push ebp
+	mov ebp, esp
+	mov eax,[0x8+ebp]
 	mov cr3, eax
+	pop ebp
+	mov esp, ebp
 	ret
 
 _pmmngr_get_PDBR:

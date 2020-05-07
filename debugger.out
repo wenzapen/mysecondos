@@ -1,7 +1,27 @@
 Next at t=0
 (0) [0x00000000fffffff0] f000:fff0 (unk. ctxt): jmp far f000:e05b         ; ea5be000f0
 continue
-Next at t=2266891363
-(0) [0x0000000000100677] 0008:00000000c0000677 (unk. ctxt): jmp .-2 (0xc0000677)      ; ebfe
-<bochs:1> quit
-(0).[2266891363] [0x0000000000100677] 0008:00000000c0000677 (unk. ctxt): jmp .-2 (0xc0000677)      ; ebfe
+Next at t=768242911
+(0) [0x0000000000100684] 0008:00000000c0000684 (unk. ctxt): jmp .-2 (0xc0000684)      ; ebfe
+<bochs:1> regs
+rax: 0x00000000_e0000011 rcx: 0x00000000_00000010
+rdx: 0x00000000_00003003 rbx: 0x00000000_00001000
+rsp: 0x00000000_0008ffb0 rbp: 0x00000000_0008ffe8
+rsi: 0x00000000_00001f8f rdi: 0x00000000_00000002
+r8 : 0x00000000_00000000 r9 : 0x00000000_00000000
+r10: 0x00000000_00000000 r11: 0x00000000_00000000
+r12: 0x00000000_00000000 r13: 0x00000000_00000000
+r14: 0x00000000_00000000 r15: 0x00000000_00000000
+rip: 0x00000000_c0000684
+eflags 0x00000006: id vip vif ac vm rf nt IOPL=0 of df if tf sf zf af PF cf
+<bochs:2> creg
+CR0=0xe0000011: PG CD NW ac wp ne ET ts em mp PE
+CR2=page fault laddr=0x0000000000000000
+CR3=0x0000000000004000
+    PCD=page-level cache disable=0
+    PWT=page-level write-through=0
+CR4=0x00000000: smep osxsave pcid fsgsbase smx vmx osxmmexcpt osfxsr pce pge mce pae pse de tsd pvi vme
+CR8: 0x0
+EFER=0x00000000: ffxsr nxe lma lme sce
+<bochs:3> quit
+(0).[768242911] [0x0000000000100684] 0008:00000000c0000684 (unk. ctxt): jmp .-2 (0xc0000684)      ; ebfe

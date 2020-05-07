@@ -97,6 +97,7 @@ void pmmngr_init(size_t memSize, physical_addr bitmap) {
     _mmngr_used_blocks = _mmngr_max_blocks;
 
     memset(_mmngr_memory_map, 0xff, pmmngr_get_block_count()/PMMNGR_BLOCKS_PER_BYTE);
+    
 
 }
 
@@ -186,7 +187,18 @@ uint32_t pmmngr_get_block_size() {
 
 //! if b==0, disable paging; otherwise, enable paging
 void pmmngr_paging_enable(int b) {
-    _pmmngr_paging_enable(b);
+//    _pmmngr_paging_enable(b);
+    if( b == 0 ) {
+        asm volatile("mov %cr0, %eax");
+        asm volatile("and $0x7fffffff, %eax");
+        asm volatile("mov %eax, %cr0");
+
+    } else {
+        asm volatile("mov %cr0, %eax");
+        asm volatile("or $0x80000000, %eax");
+        asm volatile("mov %eax, %cr0");
+
+    }
 }
 
 //! return 1, if paging is enabled; otherwise return 0
@@ -195,7 +207,9 @@ int pmmngr_is_paging() {
 }
 
 void pmmngr_load_PDBR(physical_addr addr) {
-    _pmmngr_load_PDBR(addr);
+//    _pmmngr_load_PDBR(addr);
+    asm volatile("mov %0, %%eax" : : "r"(addr));
+    asm volatile("mov %eax, %cr3");
 }
 
 physical_addr pmmngr_get_PDBR() {

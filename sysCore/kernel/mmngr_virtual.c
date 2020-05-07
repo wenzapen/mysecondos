@@ -31,6 +31,7 @@ int vmmngr_switch_pdirectory(pdirectory* dir) {
     if(!dir)
 	return 0;
     _cur_directory = dir;
+    _cur_pdbr = (physical_addr)&dir->m_entries;
     pmmngr_load_PDBR(_cur_pdbr);
     return 1;
 }
@@ -88,11 +89,10 @@ void vmmngr_initialize() {
     pd_entry_add_attrib(entry, I86_PDE_PRESENT|I86_PDE_WRITABLE);
     pd_entry_set_frame(entry, (physical_addr)table);
     
-    pd_entry* entry2 = &dir->m_entries[PAGE_DIRECTORY_INDEX(0xc0000000)];
+    pd_entry* entry2 = &dir->m_entries[PAGE_DIRECTORY_INDEX(0x00000000)];
     pd_entry_add_attrib(entry2, I86_PDE_PRESENT|I86_PDE_WRITABLE);
     pd_entry_set_frame(entry2, (physical_addr)table2);
 
-    _cur_pdbr = (physical_addr)&dir->m_entries;
     vmmngr_switch_pdirectory(dir);
     pmmngr_paging_enable(1);
 }
