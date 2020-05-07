@@ -3,6 +3,7 @@
 #include "idt.h"
 #include "pic.h"
 #include "pit.h"
+#include "../keyboard/kybrd.h"
 
 #ifdef _DEBUG
 #include "../kernel/debugDisplay.h"
@@ -96,6 +97,10 @@ void trap(registers_t regs) {
             _pit_ticks++;
             interruptdone(0);
             break;
+	case 33: //keyboard
+	    i86_kybrd_irq();
+	    interruptdone(0);
+	    break;
         default:
             debugPrintf("[HAL i86] Unhandled Interrupt: %d \n", regs.int_no);
     }
