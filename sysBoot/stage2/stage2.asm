@@ -44,10 +44,10 @@ iend
 
 ; elf header
 e_entry: dd 0
-e_phoff: dd 0
-e_phentsize: dw 0
+e_phoff: dd 0  ; program header offset: the 1st ph
+e_phentsize: dw 0  ; size of program header
 e_phnum: dw 0
-ph_base: dd 0
+ph_base: dd 0  ; base address of programe header: address of 1st ph
 
 ; program header
 p_offset: dd 0  ; ph+4
@@ -140,7 +140,7 @@ stage3:
 
 	call enablePaging
 
-; load kernel to IMAGE_PMODE_BASE(0x100000)
+; copy kernel to IMAGE_PMODE_BASE(0x100000)
 ; 
 
 loadKernel:
@@ -163,7 +163,10 @@ loadKernel:
 
 .copy_segment:
 	push ecx
-	mov eax, [ph_base]
+	mov eax, ecx
+	sub eax, 1
+	mul word [e_phentsize]
+	add eax, [ph_base]
 	add eax, 4
 	mov ebx, [eax]
 	mov dword [p_offset], ebx
@@ -191,9 +194,6 @@ loadKernel:
 
 .no_padding:
 	pop ecx
-	mov eax, dword [ph_base]
-	add eax, dword [e_phentsize]
-	mov dword [ph_base], eax
 	loop .copy_segment
 .execute:
 	mov eax, dword [e_entry]
@@ -207,20 +207,21 @@ loadKernel:
 	cli
 	hlt	
 
-copyImage:
-	mov eax, dword [imageSize]
-	movzx ebx, word [bpbBytesPerSector]
-	mul ebx
-	mov ebx, 4
-	div ebx
-	cld
-	mov ecx, eax
-	mov esi, IMAGE_RMODE_BASE
-	mov edi, IMAGE_PMODE_BASE
-	rep movsd
-	mov ebx, loadingKernel
-	call print32
-	hlt
-
+; Function copyImage is not used anymore
+;copyImage:
+;	mov eax, dword [imageSize]
+;	movzx ebx, word [bpbBytesPerSector]
+;	mul ebx
+;	mov ebx, 4
+;	div ebx
+;	cld
+;	mov ecx, eax
+;	mov esi, IMAGE_RMODE_BASE
+;	mov edi, IMAGE_PMODE_BASE
+;	rep movsd
+;	mov ebx, loadingKernel
+;	call print32
+;	hlt
+;
 ;	jmp CODE_DESC:IMAGE_PMODE_BASE ; jump to kernel
 
