@@ -1,5 +1,6 @@
 #include "kybrd.h"
 #include <hal.h>
+#include <ctype.h>
 
 //! keyboard encoder
 #define KYBRD_ENC_INPUT_BUF  0x60
@@ -90,7 +91,7 @@ static int _kkybrd_disable = 0;
 
 //! original xt scan code set. Array index=make code
 //! change what keys the scan code correspond to if your scan code set is different
-static int _kkybrd_scancode_std [] = {
+static unsigned _kkybrd_scancode_std [] = {
 
 	//! key			scancode
 	KEY_UNKNOWN,	//0
@@ -287,7 +288,7 @@ void i86_kybrd_irq() {
 		_kkybrd_diag_res = 0;
 		break;
 	    case KYBRD_ERR_RESEND_CMD:
-		_kkybrd_resend_res = true;
+		_kkybrd_resend_res = 1;
 		break;
 	}
     }
@@ -352,8 +353,8 @@ void kkybrd_set_leds(int num, int caps, int scroll) {
 }
 
 //! get last key stroke
-int kkybrd_get_last_key() {
-    return (_scancode != INVALID_SCANCODE) ? (_kkybrd_scancode_std[_scancode]) : (KEY_UNKOWN);
+unsigned kkybrd_get_last_key() {
+    return (_scancode != INVALID_SCANCODE) ? (_kkybrd_scancode_std[_scancode]) : (KEY_UNKNOWN);
 }
 
 void kkybrd_discard_last_key() {
@@ -486,7 +487,7 @@ int kkybrd_self_test() {
 void kkybrd_install() {
     _kkybrd_bat_res = 1;
     _scancode = 0;
-    _numlock = _scrolllock ==capslock = 0;
+    _numlock = _scrolllock =_capslock = 0;
     kkybrd_set_leds(0, 0, 0);
     _shift = _alt = _ctrl = 0;
 

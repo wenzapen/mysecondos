@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define         KEY_UNKOWN             0x0
+#define         KEY_UNKNOWN             0x0
 #define  	KEY_SPACE              ' '
 #define  	KEY_0                  '0'
 #define  	KEY_1                  '1'
@@ -46,14 +46,12 @@
 #define  	KEY_RETURN             '\r'
 #define  	KEY_ESCAPE             0x1001
 #define  	KEY_BACKSPACE          '\b'
-#define  
   // Arrow keys ///////////////////////
   
 #define  	KEY_UP                 0x1100
 #define  	KEY_DOWN               0x1101
 #define  	KEY_LEFT               0x1102
 #define  	KEY_RIGHT              0x1103
-#define  
   // Function keys ////////////////////
   
 #define  	KEY_F1                 0x1201
@@ -83,8 +81,8 @@
 #define  	KEY_ASTERISK           '*'
 #define  	KEY_EXCLAMATION        '!'
 #define  	KEY_QUESTION           '?'
-#define  	KEY_QUOTEDOUBLE        '\'
-#define  	KEY_QUOTE              '\'
+#define  	KEY_QUOTEDOUBLE        '\"'
+#define  	KEY_QUOTE              '\''
 #define  	KEY_EQUAL              '='
 #define  	KEY_HASH               '#'
 #define  	KEY_PERCENT            '%'
@@ -162,7 +160,7 @@ int kkybrd_get_ctrl();
 int kkybrd_get_shift();
 
 //! resend last command
-int kkybrd_ignore_resend();
+void kkybrd_ignore_resend();
 int kkybrd_check_resend();
 
 //! returns status of tests. kkybrd_self_test runs the test
@@ -172,14 +170,14 @@ int kkybrd_self_test();
 
 //! returns last scan code, last keystroke
 uint8_t kkybrd_get_last_scan();
-uint32_t kkybrd_get_last_key();
+unsigned kkybrd_get_last_key();
 void kkybrd_discard_last_key();
 
 //! updateds LEDs
 void kkybrd_set_leds(int num, int caps, int scroll);
 
 //! converts keycode to ascii character (takes account of caps lock and shift keys)
-char kkybrd_key_to_ascii(uint32_t);
+char kkybrd_key_to_ascii(int);
 
 //! keyboard enable/disable
 void kkybrd_disable();
@@ -190,7 +188,7 @@ int kkybrd_is_disabled();
 void kkybrd_reset_system();
 
 //! install keyboard
-void kkybrd_install(int);
+void kkybrd_install();
 void i86_kybrd_irq();
 
 #endif

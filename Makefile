@@ -4,10 +4,12 @@ CC = i686-elf-gcc
 C_SOURCES=$(wildcard sysCore/kernel/*.c \
 			sysCore/lib/*.c \
 			sysCore/hal/*.c \
+			sysCore/keyboard/*.c \
 			)
 S_SOURCES=$(wildcard sysCore/kernel/*.asm \
 			sysCore/lib/*.asm \
 			sysCore/hal/*.asm \
+			sysCore/keyboard/*.asm \
 			)
 OBJ=$(C_SOURCES:.c=.o) $(S_SOURCES:.asm=.o)
 CFLAGS=-g -ffreestanding -I sysCore/include -D _DEBUG

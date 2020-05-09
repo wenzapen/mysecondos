@@ -74,6 +74,11 @@ void debugGotoXY(unsigned x, unsigned y) {
 
 }
 
+void debugGetXY(unsigned *x, unsigned *y) {
+    *x = _xPos;
+    *y = _yPos;
+}
+
 void debugClrScr(const unsigned short c) {
     unsigned char* p = (unsigned char*)VID_MEMORY;
     for(int i=0; i<2*80*25; i+=2) {

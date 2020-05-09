@@ -1,4 +1,4 @@
 Next at t=0
 (0) [0x00000000fffffff0] f000:fff0 (unk. ctxt): jmp far f000:e05b         ; ea5be000f0
 continue
-(0).[1621060000] [0x000000000010067f] 0008:00000000c000067f (unk. ctxt): jmp .-2 (0xc000067f)      ; ebfe
+(0).[834371326] [0x00000000000f054a] f000:054a (unk. ctxt): out dx, al                ; ee

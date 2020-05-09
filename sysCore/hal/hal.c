@@ -99,7 +99,7 @@ void trap(registers_t regs) {
             break;
 	case 33: //keyboard
 	    i86_kybrd_irq();
-	    interruptdone(0);
+	    interruptdone(1);
 	    break;
         default:
             debugPrintf("[HAL i86] Unhandled Interrupt: %d \n", regs.int_no);

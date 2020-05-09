@@ -4,6 +4,8 @@
 #include "mmngr_phys.h"
 #include "mmngr_virtual.h"
 #include "../keyboard/kybrd.h"
+#include <ctype.h>
+#include <string.h>
 
 struct memory_region {
     uint32_t startLo;
@@ -45,7 +47,6 @@ void init(struct multiboot_info* bootinfo) {
 // ! place memory bit map used by PMM at the end of the kernel in memory
     pmmngr_init(memSize, 0xc0000000+kernelSize*512);
 
-//    debugPrintf("pmm initialized with %d KB physical memory; memLo: %d memHi: %d\n\n", memSize, bootinfo->m_memoryLo, bootinfo->m_memoryHi);
 
 //    debugSetColor(0x19);
 //    debugPrintf("Physical Memory Map:\n");
@@ -61,21 +62,12 @@ void init(struct multiboot_info* bootinfo) {
     	if (i>0 && region[i].startLo==0)
     		break;
     
-    	//! display entry
-//    	debugPrintf ("region %i: start: 0x%x%x length (bytes): 0x%x%x type: %i (%s)\n", i, 
-    		region[i].startHi, region[i].startLo,
-    		region[i].sizeHi,region[i].sizeLo,
-    		region[i].type, strMemoryTypes[region[i].type-1]);
     
     	//! if region is avilable memory, initialize the region for use
     	if (region[i].type==1)
     		pmmngr_init_region (region[i].startLo, region[i].sizeLo);
     }
     
-//    debugSetColor (0x17);
-    
-//    debugPrintf ("\npmm regions initialized: %i allocation blocks; used or reserved blocks: %i\nfree blocks: %i\n",
-    	pmmngr_get_block_count (),  pmmngr_get_use_block_count (), pmmngr_get_free_block_count () );
     
 //! deinit the region the kernel is in as its in use; deinit 0~1Mb
     pmmngr_deinit_region (0x0, 0x1000);
@@ -83,16 +75,13 @@ void init(struct multiboot_info* bootinfo) {
     
 //    debugSetColor (0x17);
     
-//    debugPrintf ("\npmm regions initialized: %i allocation blocks; block size: %i bytes\n",
-    	pmmngr_get_block_count (), pmmngr_get_block_size () );
-    
     vmmngr_initialize();
     kkybrd_install();
 
 }
 
 void sleep(int ms) {
-    static int ticks = ms + get_tick_count();
+    int ticks = ms + get_tick_count();
     while(ticks > get_tick_count()) 
 	;
 }
@@ -100,7 +89,7 @@ void sleep(int ms) {
 int getch() {
     int key = KEY_UNKNOWN;
     //! wait for a keypress
-    while(key==KEY_UNKNWON)
+    while(key==KEY_UNKNOWN)
 	key = kkybrd_get_last_key();
     kkybrd_discard_last_key();   // reset _scancode to KEY_UNKNOWN
     return key;
@@ -119,7 +108,7 @@ void get_cmd(char* buf, int n) {
     while(i < n) {
 	bufChar = 1;
 	key = getch();
-	if(key==KEY_ENTER) break;
+	if(key==KEY_RETURN) break;
 	if(key==KEY_BACKSPACE) {
 	    bufChar = 0;
 	    if(i>0) {
@@ -148,9 +137,9 @@ void get_cmd(char* buf, int n) {
 
 }
 
-bool run_cmd(char* cmd_buf) {
+int run_cmd(char* cmd_buf) {
     if(strcmp(cmd_buf, "exit")==0) 
-	return true;
+	return 1;
     else if(strcmp(cmd_buf, "cls")==0)
 	debugClrScr(0x17);
     else if(strcmp(cmd_buf, "help")==0) {
@@ -164,20 +153,20 @@ bool run_cmd(char* cmd_buf) {
     else
 	debugPuts("\nUnknown command");
 
-    return false;
+    return 0;
 }
 
 void run() {
     char cmd_buf[100];
     while(1) {
 	get_cmd(cmd_buf, 98);
-	if(run_cmd(cmd_buf)==true)
+	if(run_cmd(cmd_buf)==1)
 	    break;
     }
 }
 
 
-int main(multiboot_info *bootinfo) {
+int main(struct multiboot_info *bootinfo) {
     init(bootinfo);
 	debugGotoXY (0,0);
 	debugPuts ("OSDev Series Keyboard Demo");
